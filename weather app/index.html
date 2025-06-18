@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SkyCast</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:600,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>SkyCast</h1>
+  <form class="weather-search-form" onsubmit="event.preventDefault(); showWeather();">
+    <div class="autocomplete">
+      <input
+        type="text"
+        id="citySearch"
+        placeholder="Search city, municipality, or industrial area..."
+        aria-label="Search City"
+        autocomplete="off"
+        oninput="showSuggestions()"
+      />
+      <ul id="suggestions" class="suggestions-list"></ul>
+    </div>
+    <select id="citySelect" aria-label="Select City, Municipality, or Industrial Area">
+      <optgroup label="Major Cities">
+        <option value="Bhubaneswar">Bhubaneswar</option>
+        <option value="Cuttack">Cuttack</option>
+        <option value="Rourkela">Rourkela</option>
+        <option value="Berhampur">Berhampur</option>
+        <option value="Sambalpur">Sambalpur</option>
+        <option value="Puri">Puri</option>
+        <option value="Balasore">Balasore</option>
+        <option value="Baripada">Baripada</option>
+        <option value="Jharsuguda">Jharsuguda</option>
+        <option value="Angul">Angul</option>
+        <option value="Jeypore">Jeypore</option>
+        <option value="Bargarh">Bargarh</option>
+        <option value="Balangir">Balangir</option>
+        <option value="Dhenkanal">Dhenkanal</option>
+        <option value="Rayagada">Rayagada</option>
+        <option value="Koraput">Koraput</option>
+        <option value="Paradip">Paradip</option>
+        <option value="Sundargarh">Sundargarh</option>
+        <option value="Kalahandi">Kalahandi</option>
+        <option value="Kendrapara">Kendrapara</option>
+        <option value="Bhadrak">Bhadrak</option>
+        <option value="Jagatsinghpur">Jagatsinghpur</option>
+        <option value="Kendujhar">Kendujhar</option>
+        <option value="Nayagarh">Nayagarh</option>
+        <option value="Phulbani">Phulbani</option>
+        <option value="Nabarangpur">Nabarangpur</option>
+        <option value="Malkangiri">Malkangiri</option>
+        <option value="Sonepur">Sonepur</option>
+        <option value="Boudh">Boudh</option>
+        <option value="Ganjam">Ganjam</option>
+      </optgroup>
+      <optgroup label="Municipalities">
+        <option value="Titlagarh">Titlagarh</option>
+        <option value="Jatani">Jatani</option>
+        <option value="Soro">Soro</option>
+        <option value="Bhanjanagar">Bhanjanagar</option>
+        <option value="Umerkote">Umerkote</option>
+        <option value="Rairangpur">Rairangpur</option>
+        <option value="Kantabanji">Kantabanji</option>
+        <option value="Aska">Aska</option>
+        <option value="Talcher">Talcher</option>
+        <option value="Chhatrapur">Chhatrapur</option>
+        <option value="Dhamnagar">Dhamnagar</option>
+        <option value="Pattamundai">Pattamundai</option>
+        <option value="Sambalpur">Sambalpur</option>
+        <option value="Sundargarh">Sundargarh</option>
+        <option value="Rayagada">Rayagada</option>
+        <option value="Jaleswar">Jaleswar</option>
+        <option value="Parlakhemundi">Parlakhemundi</option>
+        <option value="Khariar">Khariar</option>
+        <option value="Dhenkanal">Dhenkanal</option>
+        <option value="Bargarh">Bargarh</option>
+      </optgroup>
+      <optgroup label="Industrial Areas">
+        <option value="Kalinganagar">Kalinganagar</option>
+        <option value="Jharsuguda">Jharsuguda</option>
+        <option value="Angul">Angul</option>
+        <option value="Paradeep">Paradeep</option>
+        <option value="Rourkela">Rourkela</option>
+        <option value="Rayagada">Rayagada</option>
+        <option value="Dhamra">Dhamra</option>
+        <option value="Choudwar">Choudwar</option>
+        <option value="Balasore">Balasore</option>
+        <option value="Jajpur">Jajpur</option>
+        <option value="Sambalpur">Sambalpur</option>
+        <option value="Titlagarh">Titlagarh</option>
+        <option value="Talcher">Talcher</option>
+        <option value="Bhubaneswar">Bhubaneswar</option>
+        <option value="Duburi">Duburi</option>
+        <option value="Khurda">Khurda</option>
+        <option value="Sunabeda">Sunabeda</option>
+        <option value="Brajrajnagar">Brajrajnagar</option>
+        <option value="Rajgangpur">Rajgangpur</option>
+        <option value="Barbil">Barbil</option>
+      </optgroup>
+    </select>
+    <button type="submit">Search</button>
+  </form>
+  <div class="weather-card-ui glass">
+    <div class="weather-header">
+      <div>
+        <div class="weather-day" id="weatherDay">MONDAY</div>
+        <div class="weather-date" id="weatherDate">28/01/2022</div>
+      </div>
+      <div class="weather-range">
+        <span class="min-temp" id="minTemp">&#8595; 18°</span>
+        <span class="max-temp" id="maxTemp">&#8593; 25°</span>
+      </div>
+    </div>
+    <div class="weather-main-row">
+      <div class="weather-info">
+        <div class="weather-detail"><span>💧</span> <span id="humidity">40%</span></div>
+        <div class="weather-detail"><span>💨</span> <span id="wind">6km/h</span></div>
+      </div>
+      <div class="weather-center">
+        <div class="weather-icon animated" id="weatherIcon">⛅</div>
+        <div class="weather-temp" id="weatherTemp">22°C</div>
+        <div class="weather-desc" id="weatherDesc">PARTLY CLOUDY</div>
+      </div>
+      <div class="unit-toggle" role="radiogroup" aria-label="Temperature Unit">
+        <button id="toC" class="unit-btn active" aria-checked="true" aria-label="Celsius">C</button>
+        <button id="toF" class="unit-btn" aria-checked="false" aria-label="Fahrenheit">F</button>
+        <button id="toK" class="unit-btn" aria-checked="false" aria-label="Kelvin">K</button>
+      </div>
+    </div>
+    <div class="weather-footer">
+      <div class="weekdays">
+        <button class="weekday">Tue</button>
+        <button class="weekday">Wed</button>
+        <button class="weekday active">Thu</button>
+        <button class="weekday">Fri</button>
+        <button class="weekday">Sat</button>
+      </div>
+      <div class="time-select">
+        <button class="time-btn active">12:00</button>
+        <button class="time-btn">15:00</button>
+        <button class="time-btn">18:00</button>
+      </div>
+    </div>
+  </div>
+  <div class="weather-flat">
+    <div class="weather-row">
+      <span class="weather-icon" id="weatherIcon">⛅</span>
+      <span class="weather-temp" id="weatherTemp">22°C</span>
+      <span class="weather-desc" id="weatherDesc">PARTLY CLOUDY</span>
+    </div>
+    <div class="weather-row">
+      <span>Humidity: <span id="humidity">40%</span></span>
+      <span>Wind: <span id="wind">6km/h</span></span>
+    </div>
+    <div class="weather-row">
+      <span>Min: <span id="minTemp">18°</span></span>
+      <span>Max: <span id="maxTemp">25°</span></span>
+    </div>
+  </div>
+  <script>
+    // Autocomplete logic
+    const allPlaces = [
+      "Bhubaneswar","Cuttack","Rourkela","Berhampur","Sambalpur","Puri","Balasore","Baripada","Jharsuguda","Angul","Jeypore","Bargarh","Balangir","Dhenkanal","Rayagada","Koraput","Paradip","Sundargarh","Kalahandi","Kendrapara","Bhadrak","Jagatsinghpur","Kendujhar","Nayagarh","Phulbani","Nabarangpur","Malkangiri","Sonepur","Boudh","Ganjam",
+      "Titlagarh","Jatani","Soro","Bhanjanagar","Umerkote","Rairangpur","Kantabanji","Aska","Talcher","Chhatrapur","Dhamnagar","Pattamundai","Sambalpur","Sundargarh","Rayagada","Jaleswar","Parlakhemundi","Khariar","Dhenkanal","Bargarh",
+      "Kalinganagar","Jharsuguda","Angul","Paradeep","Rourkela","Rayagada","Dhamra","Choudwar","Balasore","Jajpur","Sambalpur","Titlagarh","Talcher","Bhubaneswar","Duburi","Khurda","Sunabeda","Brajrajnagar","Rajgangpur","Barbil"
+    ];
+
+    function showSuggestions() {
+      const input = document.getElementById("citySearch");
+      const suggestions = document.getElementById("suggestions");
+      const value = input.value.trim().toLowerCase();
+      suggestions.innerHTML = "";
+      if (!value) {
+        suggestions.style.display = "none";
+        return;
+      }
+      const matches = allPlaces.filter(d => d.toLowerCase().startsWith(value));
+      if (matches.length === 0) {
+        suggestions.style.display = "none";
+        return;
+      }
+      matches.forEach((place) => {
+        const li = document.createElement("li");
+        li.textContent = place;
+        li.tabIndex = 0;
+        li.onclick = () => {
+          input.value = place;
+          suggestions.style.display = "none";
+        };
+        suggestions.appendChild(li);
+      });
+      suggestions.style.display = "block";
+    }
+
+    document.addEventListener("click", (e) => {
+      if (!e.target.closest(".autocomplete")) {
+        document.getElementById("suggestions").style.display = "none";
+      }
+    });
+
+    document.getElementById("citySelect").onchange = function() {
+      document.getElementById("citySearch").value = this.value;
+    };
+
+    // Weather fetch and display
+    async function showWeather() {
+      const city = document.getElementById("citySearch").value.trim() ||
+                   document.getElementById("citySelect").value;
+      if (!city) return;
+      const apiKey = "4cbafd1bcd01ce497a8639dd2db5cb52";
+      try {
+        const res = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(city)}&appid=${apiKey}&units=metric`);
+        if (!res.ok) throw new Error("City not found");
+        const data = await res.json();
+
+        // Update UI fields
+        const dateObj = new Date();
+        document.getElementById("weatherDay").innerText = dateObj.toLocaleDateString(undefined, { weekday: "long" }).toUpperCase();
+        document.getElementById("weatherDate").innerText = dateObj.toLocaleDateString();
+        document.getElementById("weatherTemp").innerText = Math.round(data.main.temp) + "°C";
+        document.getElementById("minTemp").innerHTML = "&#8595; " + Math.round(data.main.temp_min) + "°";
+        document.getElementById("maxTemp").innerHTML = "&#8593; " + Math.round(data.main.temp_max) + "°";
+        document.getElementById("humidity").innerText = data.main.humidity + "%";
+        document.getElementById("wind").innerText = data.wind.speed + " km/h";
+        document.getElementById("weatherDesc").innerText = data.weather[0].description.toUpperCase();
+
+        // Simple icon logic
+        const main = data.weather[0].main;
+        let icon = "⛅";
+        if (main === "Clear") icon = "☀️";
+        else if (main === "Clouds") icon = "☁️";
+        else if (main === "Rain") icon = "🌧️";
+        else if (main === "Thunderstorm") icon = "⛈️";
+        else if (main === "Snow") icon = "❄️";
+        else if (main === "Drizzle") icon = "🌦️";
+        else if (main === "Mist" || main === "Fog" || main === "Haze") icon = "🌫️";
+        document.getElementById("weatherIcon").innerText = icon;
+      } catch (e) {
+        alert("Weather not found for this city.");
+      }
+    }
+
+    // Show default city weather on load
+    window.onload = showWeather;
+  </script>
+</body>
+</html>
